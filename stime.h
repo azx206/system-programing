@@ -39,7 +39,7 @@ void cap_fps(int frames)
 {
 	if(frames > FRAME_LIMIT)
 	{
-		usleep();
+	//	usleep();
 	}
 }
 

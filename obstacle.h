@@ -3,18 +3,16 @@
 #define MAX_OBSTACLE 10
 
 struct Obstacle;
-enum Face;
+typedef enum Face {UP, RIGHT, DOWN, LEFT} Face;
 
-void set_new_position(Obstacle *ob);
+void set_new_position(struct Obstacle *ob);
 
 typedef struct Obstacle {
     int x;
     int y;
     int speed;
     enum Face face;
-};
-
-typedef enum Face { UP, RIGHT, DOWN, LEFT };
+} Obstacle ;
 
 
 int obstacle_num = 0;
