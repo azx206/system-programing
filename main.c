@@ -23,7 +23,7 @@ char map1[MAP_HEIGHT][MAP_WIDTH] = {
 int main(void)
 {
     initscr();  noecho(); nodelay(stdscr, TRUE);
-    set_time(); set_left_time(10);
+    set_time(); set_left_time(50);
 
     print_map(map1);
     struct Player player = {1, 1};
@@ -49,6 +49,7 @@ int main(void)
 	if(check_collision_ob(&player, ob_array, obstacle_number))
 	{
 	    // if player meets obstacle..
+	    time_penalty();
 	}
 
 	refresh();
