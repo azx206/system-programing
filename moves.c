@@ -1,4 +1,5 @@
 #include "moves.h"
+#include <time.h>
 #include <stdlib.h>
 #define TRUE 1
 #define FALSE 0
@@ -50,15 +51,15 @@ void player_move(struct Player *player, char ch, char map[MAP_HEIGHT][MAP_WIDTH]
 
 }
 
-void set_new_position(Obstacle *ob)
+void set_new_position(Obstacle *ob, Position *pos)
 {
         srand(time(NULL));
         int i = possible_direction[ob->face][rand() % 3];
         int nx = ob->x + dx[i];
         int ny = ob->y + dy[i];
-        ob->x = nx;
-        ob->y = ny;
-	ob->face = i;
+        pos->x = nx;
+        pos->y = ny;
+	pos->face = i;
 }
 
 void print_obstacles(Obstacle* ob_array, int obstacle_number)
@@ -75,11 +76,16 @@ void move_obstacle(char map[MAP_HEIGHT][MAP_WIDTH], struct Obstacle *ob)
 {
     move(ob->x, ob->y);
     addch(empty_symbol);
-    set_new_position(ob);
-    while(check_move(map, ob->x, ob->y) == FALSE)
+
+    struct Position pos = {ob->x, ob->y};
+    set_new_position(ob, &pos);
+    while(check_move(map, pos.x, pos.y) == FALSE)
     {
-        set_new_position(ob);
+        set_new_position(ob, &pos);
     }
+    ob->x = pos.x;
+    ob->y = pos.y;
+    ob->face = pos.face;
 }
 
 void print_player(struct Player* player)

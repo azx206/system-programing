@@ -4,35 +4,37 @@
 #include <unistd.h>
 #include <time.h>
 
-clock_t start_time;
-unsigned int left_time;
+time_t start_time;
+double left_time;
 const int FRAME_LIMIT = 30;
 
 void set_time();
-unsigned int get_time();
-void set_left_time(unsigned int time);
-unsigned int get_left_time();
+double get_time();
+void set_left_time(double time);
+double get_left_time();
 
 void set_time()
 {
-    start_time = clock();
+    time(&start_time);
 }
 
-unsigned int get_time()
+double get_time()
 {
-    clock_t now = clock();
+    time_t now;
+    time(&now);
     
-    return ((now - start_time) / CLOCKS_PER_SEC);
+    return (now - start_time);
 }
 
-void set_left_time(unsigned int time)
+void set_left_time(double time)
 {
     left_time = time;
 }
 
-unsigned int get_left_time()
+double get_left_time()
 {
-    unsigned int ret = left_time - get_time();
+    
+    double ret = left_time - get_time();
     if(ret < 0) ret = 0;
 
     return ret;

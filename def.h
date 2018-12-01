@@ -26,4 +26,10 @@ typedef struct Player {
     int y;
 } Player;
 
+typedef struct Position {
+    int x;
+    int y;
+    enum Face face;
+} Position;
+
 #endif

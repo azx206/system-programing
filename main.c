@@ -22,10 +22,8 @@ char map1[MAP_HEIGHT][MAP_WIDTH] = {
 
 int main(void)
 {
-    initscr();  noecho();
-    nodelay(stdscr, TRUE);
-    set_time();
-    set_left_time(1000);
+    initscr();  noecho(); nodelay(stdscr, TRUE);
+    set_time(); set_left_time(10);
 
     print_map(map1);
     struct Player player = {1, 1};
@@ -39,15 +37,22 @@ int main(void)
 	
 	move(30, 30);
 	addstr("test!");
+
+	move(40, 30);
+	char buffer[50];
+	sprintf(buffer, "left time is : %.2lf\n", get_left_time());
+	addstr(buffer);
+
 	print_obstacles(ob_array, obstacle_number);
 	print_player(&player);
 
 	refresh();
-	sleep(1);
+	usleep(500);
     }
 
 
 
     endwin();
+    sleep(5);
     return 0;
 }
