@@ -93,3 +93,15 @@ void print_player(struct Player* player)
     move(player->x, player->y);
     addch(player_symbol);
 }
+
+int check_collision_ob(struct Player *player, struct Obstacle *ob, int obstacle_number)
+{
+    for(int i = 0; i < obstacle_number; i++)
+    {
+	Obstacle* cur_ob = &ob[i];
+	if(player->x == cur_ob->x && player->y == cur_ob->y)
+	    return TRUE;
+    }
+
+    return FALSE;
+}

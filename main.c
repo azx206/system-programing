@@ -46,6 +46,11 @@ int main(void)
 	print_obstacles(ob_array, obstacle_number);
 	print_player(&player);
 
+	if(check_collision_ob(&player, ob_array, obstacle_number))
+	{
+	    // if player meets obstacle..
+	}
+
 	refresh();
 	usleep(500);
     }

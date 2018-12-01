@@ -9,6 +9,7 @@
 #define player_symbol '1'
 #define obstacle_symbol '2'
 #define empty_symbol '3'
+#define quiz_symbol '4'
 #define MAP_HEIGHT 10
 #define MAP_WIDTH 10
 

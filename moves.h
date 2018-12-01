@@ -19,6 +19,7 @@ void move_obstacle(char map[MAP_HEIGHT][MAP_WIDTH], struct Obstacle *ob);
 int check_move(char map[MAP_HEIGHT][MAP_WIDTH], int nx, int ny);
 void player_move(struct Player *player, char ch, char map[MAP_HEIGHT][MAP_WIDTH]);
 void print_player(struct Player *player);
+int check_collision_ob(struct Player *player, struct Obstacle *ob, int obstacle_number);
 
 
 #endif
