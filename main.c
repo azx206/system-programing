@@ -22,7 +22,8 @@ char map1[MAP_HEIGHT][MAP_WIDTH] = {
 
 int main(void)
 {
-    initscr();
+    initscr();  noecho();
+    nodelay(stdscr, TRUE);
     set_time();
     set_left_time(1000);
 
@@ -33,11 +34,14 @@ int main(void)
     {
 	for(int i = 0; i < obstacle_number; i++)
 	    move_obstacle(map1, &ob_array[i]);
+	char ch = getch();
+	player_move(&player, ch, map1);
 	
+	move(30, 30);
+	addstr("test!");
 	print_obstacles(ob_array, obstacle_number);
 	print_player(&player);
 
-//	printf("%d\n", get_left_time());
 	refresh();
 	sleep(1);
     }

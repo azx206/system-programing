@@ -14,11 +14,8 @@ int check_move(char map[MAP_HEIGHT][MAP_WIDTH], int nx, int ny)
 }
 
 
-void player_move(struct Player *player, char ch)
+void player_move(struct Player *player, char ch, char map[MAP_HEIGHT][MAP_WIDTH])
 {
-    move(player->x, player->y);
-    addch(empty_symbol);
-
     int nx = player->x;
     int ny = player->y;
     switch(ch)
@@ -42,8 +39,14 @@ void player_move(struct Player *player, char ch)
         default:
             break;
     }
-    player->x = nx;
-    player->y = ny;
+    if(check_move(map, nx, ny) == TRUE)
+    {
+	move(player->x, player->y);
+	addch(empty_symbol);
+
+    	player->x = nx;
+    	player->y = ny;
+    }
 
 }
 
@@ -55,6 +58,7 @@ void set_new_position(Obstacle *ob)
         int ny = ob->y + dy[i];
         ob->x = nx;
         ob->y = ny;
+	ob->face = i;
 }
 
 void print_obstacles(Obstacle* ob_array, int obstacle_number)
