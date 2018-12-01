@@ -14,11 +14,11 @@
 #define MAP_WIDTH 10
 
 typedef enum Face {UP, RIGHT, DOWN, LEFT} Face;
+typedef enum Penalty {SPEED, NUMBER, SPEED_AND_NUMBER, NONE } Penalty;
 
 typedef struct Obstacle {
     int x;
     int y;
-    int speed;
     enum Face face;
 } Obstacle;
 

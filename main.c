@@ -1,11 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "stime.h"
 #include "map.h"
 #include "def.h"
 
-const int MAX_OBSTACLE = 10;
+const int MAX_OBSTACLE = 3;
 int obstacle_number = 1;
-Obstacle ob_array[MAX_OBSTACLE] = { {2, 2, 1, UP} };
+int obstacle_speed = 1;
+Obstacle ob_array[MAX_OBSTACLE] = {
+    {2, 2, UP},
+    {3, 3, DOWN},
+    {4, 4, LEFT}
+};
+
+void quiz_penalty();
 
 char map1[MAP_HEIGHT][MAP_WIDTH] = {
     "0000000000",
@@ -63,4 +71,34 @@ int main(void)
     endwin();
     sleep(5);
     return 0;
+}
+
+
+
+void quiz_penalty()
+{
+    srand(time(NULL));
+    enum Penalty penalty = rand() % 4;
+    switch (penalty)
+    {
+	case SPEED:
+	    obstacle_speed += 1;
+	    break;
+	case NUMBER:
+	    if(obstacle_number + 1 <= MAX_OBSTACLE)
+	    {
+		obstacle_number += 1;
+	    }
+
+	    break;
+	case SPEED_AND_NUMBER:
+	    obstacle_speed += 1;
+	    if(obstacle_number + 1 <= MAX_OBSTACLE)
+	    {
+		obstacle_number += 1;
+	    }
+	    break;
+	case NONE:
+	    break;
+    }
 }
