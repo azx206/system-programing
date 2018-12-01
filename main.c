@@ -35,12 +35,14 @@ int main(void)
 	char ch = getch();
 	player_move(&player, ch, map1);
 	
-	move(30, 30);
-	addstr("test!");
-
 	move(40, 30);
 	char buffer[50];
-	sprintf(buffer, "left time is : %.2lf\n", get_left_time());
+	double ret_left_time = get_left_time();
+	if(ret_left_time == 0)
+	{
+	    // time over
+	}
+	sprintf(buffer, "left time is : %.2lf\n", ret_left_time);
 	addstr(buffer);
 
 	print_obstacles(ob_array, obstacle_number);
