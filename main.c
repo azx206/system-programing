@@ -6,7 +6,7 @@
 
 const int MAX_OBSTACLE = 3;
 int obstacle_number = 1;
-int obstacle_speed = 1;
+int obstacle_speed = 30;
 Obstacle ob_array[MAX_OBSTACLE] = {
     {2, 2, UP},
     {3, 3, DOWN},
@@ -30,18 +30,24 @@ char map1[MAP_HEIGHT][MAP_WIDTH] = {
 
 int main(void)
 {
-    initscr();  noecho(); nodelay(stdscr, TRUE);
+    initscr();  noecho(); nodelay(stdscr, TRUE); curs_set(0);
     set_time(); set_left_time(50);
 
     print_map(map1);
-    struct Player player = {1, 1};
+    struct Player player = {1, 1, 5};
+    int calculated_frame = 0;
+    set_cap_time();
 
     while(1)
     {
-	for(int i = 0; i < obstacle_number; i++)
-	    move_obstacle(map1, &ob_array[i]);
+	if(FPS_LIMIT % obstacle_speed == 0)
+	{
+		for(int i = 0; i < obstacle_number; i++)
+		    move_obstacle(map1, &ob_array[i]);
+	}
 	char ch = getch();
-	player_move(&player, ch, map1);
+	if(FPS_LIMIT % player.speed == 0)
+		player_move(&player, ch, map1);
 	
 	move(40, 30);
 	char buffer[50];
@@ -53,17 +59,28 @@ int main(void)
 	sprintf(buffer, "left time is : %.2lf\n", ret_left_time);
 	addstr(buffer);
 
-	print_obstacles(ob_array, obstacle_number);
-	print_player(&player);
+	if(FPS_LIMIT % obstacle_speed == 0)
+		print_obstacles(ob_array, obstacle_number);
+	if(FPS_LIMIT % player.speed == 0)
+		print_player(&player);
 
-	if(check_collision_ob(&player, ob_array, obstacle_number))
+	if(FPS_LIMIT % obstacle_speed == 0 || FPS_LIMIT % player.speed == 0)
 	{
-	    // if player meets obstacle..
-	    time_penalty();
+		if(check_collision_ob(&player, ob_array, obstacle_number))
+		{
+	   	 // if player meets obstacle..
+		   	 time_penalty();
+		}
 	}
 
 	refresh();
-	usleep(500);
+	++calculated_frame;
+	if(calculated_frame >= 30)
+	{
+	    calculated_frame = 0;
+	    usleep(get_cap_time());
+	    set_cap_time();
+	}
     }
 
 
@@ -82,7 +99,8 @@ void quiz_penalty()
     switch (penalty)
     {
 	case SPEED:
-	    obstacle_speed += 1;
+	    if(obstacle_speed > 5)
+	  	  obstacle_speed -= 1;
 	    break;
 	case NUMBER:
 	    if(obstacle_number + 1 <= MAX_OBSTACLE)
@@ -92,7 +110,8 @@ void quiz_penalty()
 
 	    break;
 	case SPEED_AND_NUMBER:
-	    obstacle_speed += 1;
+	    if(obstacle_speed > 5)
+	    	obstacle_speed += 1;
 	    if(obstacle_number + 1 <= MAX_OBSTACLE)
 	    {
 		obstacle_number += 1;

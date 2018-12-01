@@ -12,6 +12,7 @@
 #define quiz_symbol '4'
 #define MAP_HEIGHT 10
 #define MAP_WIDTH 10
+#define FPS_LIMIT 30
 
 typedef enum Face {UP, RIGHT, DOWN, LEFT} Face;
 typedef enum Penalty {SPEED, NUMBER, SPEED_AND_NUMBER, NONE } Penalty;
@@ -25,6 +26,7 @@ typedef struct Obstacle {
 typedef struct Player {
     int x;
     int y;
+    int speed;
 } Player;
 
 typedef struct Position {
