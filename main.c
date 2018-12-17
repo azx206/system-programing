@@ -5,6 +5,7 @@ int enemy_number;
 int enemy_speed;
 int current_map;
 int solved;
+char current_symbol;
 
 char map1[MAP_HEIGHT][MAP_WIDTH] = {
   "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
@@ -81,13 +82,14 @@ struct Object enemy_array[ENEMY_MAX] = {
 };
 
 char input;
+int recent_portal;
 
 int main(void)
 {
   initscr(); noecho(); nodelay(stdscr, TRUE); cbreak(); curs_set(0); enemy_number = 1; enemy_speed = FPS_LIMIT; current_map = 1;
   struct timeval main_timer; set_timer(&main_timer);
   struct timeval frame_timer; set_timer(&frame_timer);
-  int fps = 1;
+  int fps = 1; current_symbol = EMPTY_SYMBOL;
 
   print_map(map1); refresh();
 
@@ -101,7 +103,9 @@ int main(void)
     {
       for(int i = 0; i < enemy_number; i++)
       {
-        reset(&enemy_array[i]);
+        if(current_map == 1) reset(&enemy_array[i], map1);
+        else if(current_map == 2) reset(&enemy_array[i], map2);
+
         if(current_map == 1) random_walk(map1, &enemy_array[i]);
         else random_walk(map2, &enemy_array[i]);
         draw(&enemy_array[i]);
@@ -121,23 +125,30 @@ int main(void)
     }
 
     // portal-collision
-    if(portal_warp() == TRUE)
+    if(portal_warp(current_symbol, &player) == TRUE && recent_portal == FALSE)
     {
+      clear(); move(0, 0); addstr("moving to next map..!"); refresh(); //sleep(1);
       if(current_map == 1)
       {
         current_map = 2;
+        player.x = 1; player.y = 29;
         print_map(map2);
+        draw(&player);
       }
       else if(current_map == 2)
       {
         current_map = 1;
+        player.x = 28; player.y = 29;
         print_map(map1);
+        draw(&player);
       }
+      fps = 1; set_timer(&frame_timer); recent_portal = TRUE;
+      continue;
     }
 
 
     // end-collision
-    if(end_warp() == TRUE)
+    if(end_warp(current_symbol, &player, solved) == TRUE)
     {
       break;
     }
@@ -191,6 +202,11 @@ void input_handler()
   {
     if(current_map == 1) key_handling(input, &player, map1);
     else key_handling(input, &player, map2);
+
+    if(current_map == 1) current_symbol = map1[player.x][player.y];
+    else if(current_map == 2) current_symbol = map2[player.x][player.y];
+
+    recent_portal = FALSE;
     refresh();
   }
 }
