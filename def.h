@@ -26,7 +26,7 @@
 #define QUIZ_SYMBOL 'Q'
 #define PORTAL_SYMBOL '|'
 #define END_SYMBOL 'E'
-#define LEFT_TIME 30 * 1000 * 1000
+#define LEFT_TIME 30 * 60 * 1000 * 1000
 
 #define ENEMY_MAX 3
 #define TOTAL_PROBLEMS 10
@@ -58,7 +58,7 @@ struct Position {
 
 void print_map(char map[MAP_HEIGHT][MAP_WIDTH]);
 
-void reset(struct Object* obj);
+void reset(struct Object* obj, char map[MAP_HEIGHT][MAP_WIDTH]);
 
 void draw(struct Object* obj);
 
@@ -76,9 +76,9 @@ int collision_detect(struct Object* player, struct Object* enemy_array, int enem
 
 void key_handling(char input, struct Object* player, char map[MAP_HEIGHT][MAP_WIDTH]);
 
-int portal_warp();
+int portal_warp(char symbol, struct Object* player);
 
-int end_warp();
+int end_warp(char symbol, struct Object* player, int solved);
 
 int quiz_collision();
 

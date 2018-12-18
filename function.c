@@ -15,15 +15,16 @@ void print_map(char map[MAP_HEIGHT][MAP_WIDTH])
   refresh();
 }
 
-void reset(struct Object* obj)
+void reset(struct Object* obj, char map[MAP_HEIGHT][MAP_WIDTH])
 {
   move(obj->x, obj->y);
-  addch(EMPTY_SYMBOL);
+  addch(map[obj->x][obj->y]);
 }
 
 void draw(struct Object* obj)
 {
   move(obj->x, obj->y);
+  standout();
   if(obj->type == PLAYER)
   {
     addch(PLAYER_SYMBOL);
@@ -32,6 +33,7 @@ void draw(struct Object* obj)
   {
     addch(ENEMY_SYMBOL);
   }
+  standend();
 }
 
 int check_move(char map[MAP_HEIGHT][MAP_WIDTH], struct Position* pos)
@@ -75,21 +77,28 @@ void random_walk(char map[MAP_HEIGHT][MAP_WIDTH], struct Object* obj)
 {
   static const int dx[4] = {0, 1, 0, -1};
   static const int dy[4] = {1, 0, -1, 0};
-  static const int possible_move[4][3] = {
-    {3, 0, 1},
-    {0, 1, 2},
-    {1, 2, 3},
-    {2, 3, 0}
+  static const int possible_move[4][4] = {
+    {3, 0, 1, 2},
+    {0, 1, 2, 3},
+    {1, 2, 3, 4},
+    {2, 3, 0, 1}
   };
 
   srand(time(NULL));
 
   int i;
+  int cnt = 0;
   struct Position pos;
   do {
     i = possible_move[obj->face][rand() % 3];
     pos.x = obj->x + dx[i];
     pos.y = obj->y + dy[i];
+    ++cnt;
+    if(cnt > 5)
+    {
+      i = possible_move[obj->face][3];
+      break;
+    }
   } while(check_move(map, &pos) == FALSE);
 
   obj->x = pos.x;
@@ -133,18 +142,22 @@ void key_handling(char input, struct Object* player, char map[MAP_HEIGHT][MAP_WI
   if(nx < 0 || ny < 0 || nx >= MAP_HEIGHT || ny >= MAP_WIDTH) return;
 
   if(map[nx][ny] == WALL_SYMBOL) return;
-  move(player->x, player->y); addch(EMPTY_SYMBOL);
+  reset(player, map);
+  //move(player->x, player->y); addch(EMPTY_SYMBOL);
   player->x = nx; player->y = ny;
-  move(player->x, player->y); addch(PLAYER_SYMBOL);
+  draw(player);
+  //move(player->x, player->y); addch(PLAYER_SYMBOL);
 }
 
-int portal_warp()
+int portal_warp(char symbol, struct Object* player)
 {
+  if(symbol == PORTAL_SYMBOL) return TRUE;
   return FALSE;
 }
 
-int end_warp()
+int end_warp(char symbol, struct Object* player, int solved)
 {
+  if(solved == TOTAL_PROBLEMS && symbol == END_SYMBOL) return TRUE;
   return FALSE;
 }
 
