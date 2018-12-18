@@ -198,7 +198,7 @@ void set_new_penalty(int* enemy_speed, int* enemy_number)
   {
     case 0:
     case 1:
-    if(*enemy_speed > 5) --(*enemy_speed);
+    if(*enemy_speed > 0.1 * 1000 * 1000) (*enemy_speed) /= 2;
     if(i == 1) break;
     case 2:
     if(*enemy_number < ENEMY_MAX) ++(*enemy_number);
