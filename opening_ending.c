@@ -136,28 +136,99 @@ int main()
 		if(root == 1)
 		{
 			if()//시간이 절반 이상 지나갔을 때
-			{
+			{	
+				printf("제발 제발....\n")//엔딩 2페이지
+				//엔딩 3페이지 시작
+				printf("서버 접속 대기\n");
+				printf("서버가 혼잡합니다. 잠시만 기다려 주세요.\n");
+				printf("대기순위 2252\n");
+				//엔딩 3페이지 시작
+				printf("그래 오늘은 이정도로 만족해야겠지...\n");
+				//엔딩 3페이지 끝
+				//엔딩 4페이지 시작
+				printf("그리고 다음날\n");
+
+				//엔딩 분기 2 점수 구별
+				if(score <=6)
+				{
+				}
+				else if(score >=6 && score <= 9)
+				{
+				}
+				else if(score == 10)
+				{
+				}
 			}
 			else()
 			{
+				//엔딩 분기 2 점수 구별
+				if(score <=6)
+				{
+				}
+				else if(score >=6 && score <= 9)
+				{
+				}
+				else if(score == 10)
+				{
+				}
 			}
 		}
 		if(root == 2)
 		{
 			if()//시간이 절반 이상 지나갔을 때
 			{
+				//엔딩 분기 2 점수 구별
+				if(score <=6)
+				{
+				}
+				else if(score >=6 && score <= 9)
+				{
+				}
+				else if(score == 10)
+				{
+				}
 			}
 			else()
 			{
+				//엔딩 분기 2 점수 구별
+				if(score <=6)
+				{
+				}
+				else if(score >=6 && score <= 9)
+				{
+				}
+				else if(score == 10)
+				{
+				}
 			}
 		}
 		if(root == 3)
 		{	
 			if()//시간이 절반 이상 지나갔을 때
 			{
+				//엔딩 분기 2 점수 구별
+				if(score <=6)
+				{
+				}
+				else if(score >=6 && score <= 9)
+				{
+				}
+				else if(score == 10)
+				{
+				}
 			}
 			else()
 			{
+				//엔딩 분기 2 점수 구별
+				if(score <=6)
+				{
+				}
+				else if(score >=6 && score <= 9)
+				{
+				}
+				else if(score == 10)
+				{
+				}
 			}
 		}
 	} 	
