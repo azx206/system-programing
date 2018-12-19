@@ -7,11 +7,12 @@ int enemy_number;
 int enemy_speed;
 int current_map;
 int solved;
+int quiz_number;
 char current_symbol;
 
 char map1[MAP_HEIGHT][MAP_WIDTH] = {
   "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
-  "WQP...W...............WW...WWW",
+  "WQ....W...............WW...WWW",
   "W.W.W...W.WW.W.W.W..W.WW.W..WW",
   "W.W.W.WWWWWW...W...WW....WW.WW",
   "W...W.....WW.WWWWW..W.WW..W..W",//5
@@ -24,7 +25,7 @@ char map1[MAP_HEIGHT][MAP_WIDTH] = {
   "W.WWW.W.W......W......WWWWW..W",
   "W.........W..W.W.W..W.......WW",
   "WW.WWWWWWWWW...W.W.WWWWWWWW.QW",
-  "W.........W..W.E.W..W........W",//15
+  "W.........W..W...W..W........W",//15
   "W.W.WWWWW...WW.W.WW...W.WW.WWW",
   "W.......W.W....W...W..W.W....W",
   "W.W.W.W...W..WWWWW..W...WWWW.W",
@@ -86,10 +87,15 @@ struct Object enemy_array[ENEMY_MAX] = {
 char input;
 int recent_portal;
 int recent_enemy;
+int recent_quiz;
+
+/* in-joon's work */
+struct problem set[10];
+/* in-joon's work */
 
 int main(void)
 {
-  initscr(); noecho(); nodelay(stdscr, TRUE); cbreak(); curs_set(0); enemy_number = 1; enemy_speed = 2 * 1000 * 1000; current_map = 1;
+  initscr(); noecho(); nodelay(stdscr, TRUE); cbreak(); curs_set(0); enemy_number = 1; enemy_speed = 2 * 1000 * 1000; current_map = 1; problemSet(set);
   struct timeval main_timer; set_timer(&main_timer);
   struct timeval frame_timer; set_timer(&frame_timer);
   int fps = 1; current_symbol = EMPTY_SYMBOL;
@@ -101,8 +107,6 @@ int main(void)
     //input handling
     input_handler();
 
-    // enemy-movement
-
 
     // enemy-collision
     if(recent_enemy == FALSE && collision_detect(&player, enemy_array, enemy_number) == TRUE)
@@ -113,9 +117,28 @@ int main(void)
     }
 
     // quiz-collision
-    if(quiz_collision() == TRUE)
+    if(recent_quiz == FALSE && quiz_collision(current_symbol) == TRUE)
     {
+      recent_quiz = TRUE;
+      if(current_map == 1)
+      {
+        map1[player.x][player.y] = EMPTY_SYMBOL;
+      }
+      else if(current_map == 2)
+      {
+        map2[player.x][player.y] = EMPTY_SYMBOL;
+      }
+
+      //quiz time!
+      problemPrint(&set[quiz_number]);
+
+      char input_answer[100]; scanf("%s", input_answer);
+      if(!strcmp(input_answer, set[quiz_number].answer))
+        ++solved;
+      ++quiz_number;
       time_penalty(SET, 5 * 1000 * 1000);
+      print_status(solved, quiz_number);
+      clear_problem();
     }
 
     // portal-collision
@@ -170,7 +193,6 @@ int main(void)
       refresh();
       /////
 
-
       //cap_frame(elapsed_time);
       while(elapsed_time < 1000 * 1000)
       {
@@ -202,7 +224,7 @@ void set_enemy_timer()
 
 void enemy_movement_handler()
 {
-  signal(SIGALRM, enemy_movement_handler);
+//  signal(SIGALRM, enemy_movement_handler);
   for(int i = 0; i < enemy_number; i++)
   {
     if(current_map == 1) reset(&enemy_array[i], map1);
@@ -226,6 +248,7 @@ void input_handler()
 
     recent_portal = FALSE;
     recent_enemy = FALSE;
+    recent_quiz = FALSE;
     refresh();
   }
 }
