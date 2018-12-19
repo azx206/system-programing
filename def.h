@@ -10,6 +10,7 @@
 #include <signal.h>
 #include <sys/time.h>
 #include <aio.h>
+#include <string.h>
 
 #define FPS_LIMIT 60
 
@@ -40,6 +41,13 @@
 
 #define QUIZ_X 4
 #define QUIZ_Y 40
+
+#define PROBLEM_STATUS_X 0
+#define PROBLEM_STATUS_Y 40
+
+#define BLANK "                                                                       "
+#define DEBUG_F endwin(); puts("debug!"); exit(0);
+
 
 enum FACE {UP, RIGHT, DOWN, LEFT, NIL};
 enum TYPE {PLAYER, ENEMY};
@@ -80,10 +88,27 @@ int portal_warp(char symbol, struct Object* player);
 
 int end_warp(char symbol, struct Object* player, int solved);
 
-int quiz_collision();
+int quiz_collision(char symbol);
 
 long long time_penalty(int flag, long long penalty);
 
 void set_new_penalty(int* enemy_speed, int* enemy_number);
+
+void print_status(int solved, int quiz_number);
+
+void clear_problem();
+
+/* in-joon's work */
+typedef struct problem
+{
+	int state; // 1 = choicement  2 = description  -1 = dead
+	char *question;
+	char *choice;
+	char *answer;
+} problem;
+
+void problemSet(struct problem* set);
+
+void problemPrint(struct problem* quiz);
 
 #endif
