@@ -1,6 +1,8 @@
 #include "def.h"
 
 void input_handler();
+void enemy_movement_handler();
+void set_enemy_timer();
 int enemy_number;
 int enemy_speed;
 int current_map;
@@ -83,15 +85,16 @@ struct Object enemy_array[ENEMY_MAX] = {
 
 char input;
 int recent_portal;
+int recent_enemy;
 
 int main(void)
 {
-  initscr(); noecho(); nodelay(stdscr, TRUE); cbreak(); curs_set(0); enemy_number = 1; enemy_speed = FPS_LIMIT; current_map = 1;
+  initscr(); noecho(); nodelay(stdscr, TRUE); cbreak(); curs_set(0); enemy_number = 1; enemy_speed = 2 * 1000 * 1000; current_map = 1;
   struct timeval main_timer; set_timer(&main_timer);
   struct timeval frame_timer; set_timer(&frame_timer);
   int fps = 1; current_symbol = EMPTY_SYMBOL;
 
-  print_map(map1); refresh();
+  print_map(map1); refresh(); set_enemy_timer(); signal(SIGALRM, enemy_movement_handler);
 
   while(1)
   {
@@ -99,23 +102,14 @@ int main(void)
     input_handler();
 
     // enemy-movement
-    if(fps % enemy_speed == 0)
-    {
-      for(int i = 0; i < enemy_number; i++)
-      {
-        if(current_map == 1) reset(&enemy_array[i], map1);
-        else if(current_map == 2) reset(&enemy_array[i], map2);
 
-        if(current_map == 1) random_walk(map1, &enemy_array[i]);
-        else random_walk(map2, &enemy_array[i]);
-        draw(&enemy_array[i]);
-      }
-    }
 
     // enemy-collision
-    if(collision_detect(&player, enemy_array, enemy_number) == TRUE)
+    if(recent_enemy == FALSE && collision_detect(&player, enemy_array, enemy_number) == TRUE)
     {
       set_new_penalty(&enemy_speed, &enemy_number);
+      set_enemy_timer();
+      recent_enemy = TRUE;
     }
 
     // quiz-collision
@@ -127,7 +121,7 @@ int main(void)
     // portal-collision
     if(portal_warp(current_symbol, &player) == TRUE && recent_portal == FALSE)
     {
-      clear(); move(0, 0); addstr("moving to next map..!"); refresh(); //sleep(1);
+      clear(); move(0, 0); addstr("moving to next map..!"); refresh(); sleep(1);
       if(current_map == 1)
       {
         current_map = 2;
@@ -184,6 +178,7 @@ int main(void)
         elapsed_time = get_elapsed_time(&frame_timer);
       }
       set_timer(&frame_timer);
+      recent_enemy = FALSE;
     }
 
   }
@@ -194,6 +189,29 @@ int main(void)
 
   endwin();
   return 0;
+}
+
+void set_enemy_timer()
+{
+  struct itimerval temp;
+  temp.it_interval.tv_sec = enemy_speed / (1 * 1000 * 1000);
+  temp.it_interval.tv_usec = enemy_speed % (1 * 1000 * 1000);
+  temp.it_value = temp.it_interval;
+  if(setitimer(ITIMER_REAL, &temp, NULL) == -1) { clear(); endwin(); puts("error in setitimer!"); exit(5); }
+}
+
+void enemy_movement_handler()
+{
+  signal(SIGALRM, enemy_movement_handler);
+  for(int i = 0; i < enemy_number; i++)
+  {
+    if(current_map == 1) reset(&enemy_array[i], map1);
+    else if(current_map == 2) reset(&enemy_array[i], map2);
+
+    if(current_map == 1) random_walk(map1, &enemy_array[i]);
+    else random_walk(map2, &enemy_array[i]);
+    draw(&enemy_array[i]);
+  }
 }
 
 void input_handler()
@@ -207,6 +225,7 @@ void input_handler()
     else if(current_map == 2) current_symbol = map2[player.x][player.y];
 
     recent_portal = FALSE;
+    recent_enemy = FALSE;
     refresh();
   }
 }
