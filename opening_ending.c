@@ -134,6 +134,7 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 
 	if(find == 10 && /*엔드 포인트에 도착*/) //클리어 엔딩 score와 시간에 따라서 분기 변화.
 	{
+		printf("드디어 문제를 다 풀고 학교에서 탈출할 수 있었다....\n");//엔딩 1페이지
 		if(root == 1)
 		{
 			if()//시간이 절반 이상 지나갔을 때
@@ -162,7 +163,16 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 			}
 			else()
 			{
+				printf("제발 제발....\n")//엔딩 2페이지 끝
+				printf("서버 접속 대기\n");
+				printf("서버가 혼잡합니다. 잠시만 기다려 주세요.\n");
+				printf("대기순위 12\n");
+				//엔딩 3페이지 시작
+				printf("좋았어! 이제 즐겜을 하면 되겠군.\n");
+				//엔딩 3페이지 끝
+				//엔딩 4페이지 시작
 				//엔딩 분기 2 점수 구별
+				printf("그리고 다음날\n");
 				if(score <=6)
 				{
 				}
@@ -178,6 +188,15 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 		{
 			if()//시간이 절반 이상 지나갔을 때
 			{
+				//엔딩 2페이지 시작
+				printf("?? : Welcome Brother\n");
+				printf("그래 나의 Younger Brother아 네가 나의 민트 초코를 먹던 놈이었구나.\n")
+				printf("YB : 난 단지 Bro의 Mint choco 나의 Happiness와 satiety로 대체했을...억!\n")
+				printf("이노무 자식!\n");
+				printf("YB : 아이고 나 죽네. 민트 초코 빼앗아 먹었다고 사람친다!\n")
+				//엔딩 3페이지 끝
+				//엔딩 4페이지 시작
+				printf("그리고 다음날\n");
 				//엔딩 분기 2 점수 구별
 				if(score <=6)
 				{
@@ -192,6 +211,15 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 			}
 			else()
 			{
+				//엔딩 2페이지 시작
+				printf("?? : 아니 나의 Happiness와 satiety로 대체되어야 할 나의 Mint choco가 어디있지?\n");
+				printf("늦었다. 나의 Younger Brother....이미 나의 민트 초코는 모두 나의 위장속에 있지.\n")
+				printf("YB : 이, 이 사악한! 나의 Mint choco를!\n")
+				printf("그게 왜 너의 Mint choco지? 너의 Happiness와 satiety나의 Punch와 Kick으로 되체되었다\n")
+				printf("YB : 으아아악!")
+`				//엔딩 3페이지 끝
+				//엔딩 4페이지 시작
+				printf("그리고 다음날\n");
 				//엔딩 분기 2 점수 구별
 				if(score <=6)
 				{
