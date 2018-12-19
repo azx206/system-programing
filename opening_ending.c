@@ -80,7 +80,7 @@ int main()
 	if(root == 1)
 	{
 		
-printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
+	printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 	}
 	if(root == 2)
 	{
@@ -109,7 +109,7 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 			printf("저는 그만 정신을 잃고 말았습니다.\n");
 			printf("BAD END 1-1 Game Over(시작도 못 했음.)\n")
 		//엔딩 BAD END 1-1 Game Over(시작도 못 했음.)끝
-			printf(" BAD END 1-1 Game Over(시작도 못 했음.)\n 더 빠르게 문제를 풀어서 다음에는 집에 일찍 귀가하자!\n");//시간아웃 엔딩 페이지 끝
+			printf(" BAD END 1-1 Game Over(시작도 못 했음.)\n 더 빠르게 문제를 풀어서 다음에는 집에 일찍 귀가합시다!\n");//시간아웃 엔딩 페이지 끝
 		}
 		if(root == 2)
 		{
@@ -121,14 +121,14 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 			printf("주인공을 기다리고 있는 건 비어있는 아이스크림 통이었다...");
 			printf("BAD END 2-1 Empty\n");
 		//엔딩 BAD END 2-1 Empty끝
-			printf("BAD END 2-1 Empty\n 더 빠르게 문제를 풀어서 다음에는 집에 일찍 귀가하자!\n");//시간아웃 엔딩 페이지 끝
+			printf("BAD END 2-1 Empty\n 더 빠르게 문제를 풀어서 다음에는 집에 일찍 귀가합시다!\n");//시간아웃 엔딩 페이지 끝
 		}
 		if(root == 3)
 		{
 		//엔딩 2페이지 시작 BAD END 3-1 Frozen
 			printf("네 다음 소식입니다. 전국에 한파가 밀려들어왔는데요. 갑작스런 한파로 인해서 동사자가 발생하였습니다.\n");
 			printf("....그 중에는 홀로 사는 고등학생도 있어 안타까움을 주고 있습니다.\n");
-			printf("BAD END 3-1 Frozen\n 당신은 살아남지 못했다.....만일 다음 생이 있다면 조금 더 노력해보자\n");
+			printf("BAD END 3-1 Frozen\n 당신은 살아남지 못했습니다.....만일 다음 생이 있다면 조금 더 노력해보시길...\n");
 		}
 	}
 
@@ -161,7 +161,7 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 					printf("선생님 : 아니, 넌 다음 1주일동안 12시까지 학교에서 못 나갈 줄 알아라.\n")
 					printf("앗...아아...\n");
 					//페이지 끝 Bad End 1-2-1 밤 12시(1주일)
-					printf("Bad End 1-2 밤 12시(1주일)\n아무리 로스트 아크가 좋아도 요령은 피우시면 안되죠! 다음에는 더 열심히 해봅시다!");
+					printf("Bad End 1-2-1 밤 12시(1주일)\n아무리 로스트 아크가 좋아도 요령은 피우시면 안되죠! 다음에는 더 열심히 해봅시다!");
 					
 				}
 				else if(score >=6 && score <= 9)
@@ -232,7 +232,7 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 					printf("선생님 : 성적만 안 떨어진다면 넌 이제 야자를 안 해도 좋다!.\n");
 					printf("감사합니다!\n");
 					//페이지 끝 HAPPY End 1-4-2 Perfect game
-					printf("HAPPY End 1-4-1 노력의 결실\n 축하합니다! 완벽하다고 할 수 밖에 없군요!\n 인생을 즐기시길 바라겠습니다!");
+					printf("HAPPY End 1-4-2 Perfect game\n 축하합니다! 완벽하다고 할 수 밖에 없군요!\n 인생을 즐기시길 바라겠습니다!");
 					printf("Thank you for playing");
 				}
 			}
@@ -253,12 +253,30 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 				//엔딩 분기 2 점수 구별
 				if(score <=6)
 				{
+					printf("크흐윽 나의 민트 초코...\n")
+					printf("친구 : 대단하다 대단해. 너는 선생님에게 혼난 것보다 동생에게 빼앗긴 민트 초코가 더 가슴아프냐?\n");
+					printf("My Precious.....\n");
+					printf("친구 : 미, 미쳤구나.")
+					//페이지 끝 Bad End 2-2-1 골룸
+					printf("Bad End 2-2-1 골룸\n ....이런 비극을 맞이하기 싫다면, 조금 더 빠르게, 조금 더 똑똑해야 하지 않을까요?\n");
 				}
 				else if(score >=6 && score <= 9)
 				{
+					printf("나의 민트 초코....선생님께 혼나지는 않았지만 가슴이 아프구나...\n");	
+					printf("엄마 : 아들, 동생에게 나눠준 민트 초코가 그렇게도 아깝니?\n");
+ 					printf("네\n");
+					printf("엄마 : ...만약에 시험에서 만점을 맞는다면 배가 터지도록 민트 초코를 주마. 노오력 해라.\n");
+					//페이지 끝 Normal End 2-3-1  노오력
+					printf("Normal End 2-3-1  노오력 \n 동기는 충분합니다. 그럼 이제 노력해봅시다!\n");
 				}
 				else if(score == 10)
 				{
+					printf("엄마 : 드디어 올 것이 왔군...\n");
+					printf("10점 만점에 10점. 배가 터지도록 민트 초코를 먹을 수 있는 건가요?\n");
+					printf("엄마 : 어쩔 수 없지. 민트 초코에 대한 너의 열망을 간과한 나의 패배다. 뱃속에 가득 행복을 채우도록\n");
+					//HAPPY End 3-4-1 Mint Choco
+					printf("End 3-4-1 Mint Choco\n 뱃속에 가득 행복감이 차오르는게 느껴지십니까? 축하합니다!\n");
+					printf("Thank you for playing");
 				}
 
 			}
@@ -276,12 +294,33 @@ printf("로스트 아크에 접속하실수 있기를 바라겠습니다.\n");
 				//엔딩 분기 2 점수 구별
 				if(score <=6)
 				{
+					printf("흑흑 맛있었다. 어제의 민트 초코는\n");
+					printf("선생님 : 민트 초코에 영혼을 팔았구나...\n");
+					printf("민트 초코는 인류가 발명해낸 최고의 음식중에 하나에요.\n");
+					printf("선생님 : 이건.....진짜. 답이 없구나. 특별히 혼낼 생각도 들지 않아.\n");
+					//페이지 끝 Bad End 2-2-2 영혼을 판자
+					printf("Bad End 2-2-1 영혼을 판자\n선생님마저도 포기를 해 버렸군요...하지만 자기 자신만큼은 포기하시지 않기를 바라겠습니다.");
+					
 				}
 				else if(score >=6 && score <= 9)
 				{
+					printf("YB : 와 그렇게까지 해야겠어? Bro의 Mint choco 나의 Happiness와 satiety로 대체되는 것이 그렇게 아니꼬운거야?\n");
+					printf("니가 직접 사 먹어.")
+					printf("YB : 어차피 어제 일찍 온 건 다 우연이었다구 Bro.그리고 Bro가 문제를 다 맞춘다는 건 불가능해.\n");
+					printf("호오?\n");
+					printf("YB : 만약 Bro이 모든 문제를 맞춘다면 나의 wallet Bro의 Mint choco로 대체될 것이다.\n");
+					//페이지 끝 Normal End 2-3-2  역관광의 기회
+					printf("Normal End 2-3-2 역관광의 기회 \n 그렇다는데요? 당신의 Bro에게 쓴 맛을 보여줍시다!\n");
 				}
 				else if(score == 10)
 				{
+					printf("YB : 아, 으아니. 말 도 안 돼. 이런 일이 생기다니....\n");
+					printf("분명히 문제를 전부 다 맞히면 너의 wallet 나의 Mint choco로 대체될 것이라고 했지?\n");
+					printf("YB : 앗. 아아...\n");
+					printf("지금이 바로 그 Time이다.\n");
+					//HAPPY End 3-4-2 정의구현
+					printf("HAPPY End 3-4-2 정의구현\n 축하합니다! 당신은 당신의 Bro에게서 민트초코를 얻어냈습니다!\n");
+					printf("Thank you for playing");			
 				}
 			}
 		}
