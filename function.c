@@ -94,10 +94,12 @@ void random_walk(char map[MAP_HEIGHT][MAP_WIDTH], struct Object* obj)
     pos.x = obj->x + dx[i];
     pos.y = obj->y + dy[i];
     ++cnt;
-    if(cnt > 10)
+    if(cnt > 15)
     {
       i = possible_move[obj->face][3];
-      break;
+      pos.x = obj->x + dx[i];
+      pos.y = obj->y + dy[i];
+      if(check_move(map, &pos) == TRUE) break;
     }
   } while(check_move(map, &pos) == FALSE);
 
@@ -219,6 +221,17 @@ void clear_problem()
 {
   move(QUIZ_X, QUIZ_Y); addstr(BLANK);
   move(QUIZ_X + 2, QUIZ_Y); addstr(BLANK);
+}
+
+void init_map(char map[MAP_HEIGHT][MAP_WIDTH])
+{
+  for(int i = 0; i < MAP_HEIGHT; i++)
+  {
+    for(int j = 0; j < MAP_WIDTH; j++)
+    {
+      if(map[i][j] == '.') map[i][j] = EMPTY_SYMBOL;
+    }
+  }
 }
 
 /* in-joon's work */

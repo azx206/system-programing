@@ -99,7 +99,7 @@ int main(void)
   struct timeval main_timer; set_timer(&main_timer);
   struct timeval frame_timer; set_timer(&frame_timer);
   int fps = 1; current_symbol = EMPTY_SYMBOL;
-
+  init_map(map1); init_map(map2);
   print_map(map1); refresh(); set_enemy_timer(); signal(SIGALRM, enemy_movement_handler);
 
   while(1)
@@ -185,11 +185,12 @@ int main(void)
     {
       fps = 1;
       long long elapsed_time = get_elapsed_time(&frame_timer);
-
       //////
-      move(MAP_HEIGHT + 4, MAP_WIDTH + 1); char buffer[40]; sprintf(buffer, "elapsed_time: %lld", elapsed_time); addstr(buffer);
       long long time1 = get_elapsed_time(&main_timer);
-      move(MAP_HEIGHT + 8, MAP_WIDTH + 1); char buffer1[40]; sprintf(buffer1, "current_time: %lld", time1); addstr(buffer1);
+      long long current_left_time = (LEFT_TIME - time1) / (1000 * 1000);
+      int left_minute = current_left_time / 60;
+      int left_second = current_left_time % 60;
+      move(MAP_HEIGHT + 8, MAP_WIDTH + 1); char buffer1[40]; sprintf(buffer1, "left_time: %d minutes, %d seconds", left_minute, left_second); addstr(buffer1);
       refresh();
       /////
 
