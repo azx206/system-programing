@@ -94,10 +94,12 @@ void random_walk(char map[MAP_HEIGHT][MAP_WIDTH], struct Object* obj)
     pos.x = obj->x + dx[i];
     pos.y = obj->y + dy[i];
     ++cnt;
-    if(cnt > 10)
+    if(cnt > 15)
     {
       i = possible_move[obj->face][3];
-      break;
+      pos.x = obj->x + dx[i];
+      pos.y = obj->y + dy[i];
+      if(check_move(map, &pos) == TRUE) break;
     }
   } while(check_move(map, &pos) == FALSE);
 

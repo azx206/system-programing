@@ -45,7 +45,7 @@
 #define PROBLEM_STATUS_X 0
 #define PROBLEM_STATUS_Y 40
 
-#define BLANK "                                                                       "
+#define BLANK "                                                                               "
 #define DEBUG_F endwin(); puts("debug!"); exit(0);
 
 
