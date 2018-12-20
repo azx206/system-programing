@@ -1,14 +1,30 @@
 #include "def.h"
+#include <curses.h>
+
+int mutex;
 
 void print_map(char map[MAP_HEIGHT][MAP_WIDTH])
 {
+	int k;
   clear();
+  start_color();
+
+  init_pair(1, COLOR_BLACK, COLOR_CYAN);
+  init_pair(2, COLOR_WHITE, COLOR_WHITE);
+  init_pair(3, COLOR_BLACK, COLOR_YELLOW);
 
   for(int i = 0; i < MAP_HEIGHT; i++)
   {
     for(int j = 0; j < MAP_WIDTH; j++)
     {
+	    if(map[i][j] == 'W') k = 2;
+	    else if(map[i][j] == 'Q') k = 3;
+	    else k = 1;
+		   
+      attron(COLOR_PAIR(k));
       move(i, j); addch(map[i][j]);
+
+      attroff(k);
     }
   }
 
@@ -17,8 +33,25 @@ void print_map(char map[MAP_HEIGHT][MAP_WIDTH])
 
 void reset(struct Object* obj, char map[MAP_HEIGHT][MAP_WIDTH])
 {
+  int k;
+
+  start_color();
+
+  init_pair(1, COLOR_BLACK, COLOR_CYAN);
+  init_pair(2, COLOR_WHITE, COLOR_WHITE);
+  init_pair(3, COLOR_BLACK, COLOR_YELLOW);
+
   move(obj->x, obj->y);
+
+  if(map[obj->x][obj->y] == 'W') k = 2;
+  else if(map[obj->x][obj->y] == 'Q') k = 3;
+  else k = 1;
+
+  attron(COLOR_PAIR(k));
+
   addch(map[obj->x][obj->y]);
+
+  attroff(k);
 }
 
 void draw(struct Object* obj)
@@ -75,16 +108,15 @@ void cap_frame(long long elapsed_time)
 
 void random_walk(char map[MAP_HEIGHT][MAP_WIDTH], struct Object* obj)
 {
-  static const int dx[4] = {0, 1, 0, -1};
-  static const int dy[4] = {1, 0, -1, 0};
+  static const int dx[4] = {-1, 0, 1, 0};
+  static const int dy[4] = {0, 1, 0, -1};
   static const int possible_move[4][4] = {
     {3, 0, 1, 2},
     {0, 1, 2, 3},
-    {1, 2, 3, 4},
+    {1, 2, 3, 0},
     {2, 3, 0, 1}
   };
 
-  srand(time(NULL));
 
   int i;
   int cnt = 0;
@@ -94,7 +126,7 @@ void random_walk(char map[MAP_HEIGHT][MAP_WIDTH], struct Object* obj)
     pos.x = obj->x + dx[i];
     pos.y = obj->y + dy[i];
     ++cnt;
-    if(cnt > 15)
+    if(cnt > 20)
     {
       i = possible_move[obj->face][3];
       pos.x = obj->x + dx[i];
@@ -157,9 +189,9 @@ int portal_warp(char symbol, struct Object* player)
   return FALSE;
 }
 
-int end_warp(char symbol, struct Object* player, int solved)
+int end_warp(char symbol, struct Object* player, int quiz_number)
 {
-  if(solved == TOTAL_PROBLEMS && symbol == END_SYMBOL) return TRUE;
+  if(quiz_number == TOTAL_PROBLEMS && symbol == END_SYMBOL) return TRUE;
   return FALSE;
 }
 
@@ -201,7 +233,7 @@ void set_new_penalty(int* enemy_speed, int* enemy_number)
   {
     case 0:
     case 1:
-    if(*enemy_speed > 0.1 * 1000 * 1000) (*enemy_speed) /= 2;
+    if(*enemy_speed > MAX_SPEED) (*enemy_speed) /= 2;
     if(i == 1) break;
     case 2:
     if(*enemy_number < ENEMY_MAX) ++(*enemy_number);
@@ -287,6 +319,7 @@ void problemSet(struct problem* set)
 
 void problemPrint(struct problem* quiz)
 {
+	mutex = TRUE;
   move(QUIZ_X, QUIZ_Y); addstr(BLANK);
   move(QUIZ_X, QUIZ_Y); addstr(quiz->question);
   if(quiz->state == 1)
@@ -295,4 +328,5 @@ void problemPrint(struct problem* quiz)
     move(QUIZ_X + 2, QUIZ_Y); addstr(quiz->choice);
   }
   refresh();
+	mutex = FALSE;
 }

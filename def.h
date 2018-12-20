@@ -1,3 +1,4 @@
+
 #ifndef __DEF__
 #define __DEF__
 
@@ -6,11 +7,13 @@
 #include <fcntl.h>
 #include <time.h>
 #include <stdlib.h>
-#include <curses.h>
+#include <ncurses.h>
 #include <signal.h>
 #include <sys/time.h>
 #include <aio.h>
 #include <string.h>
+#include <locale.h>
+#include <wchar.h>
 
 #define FPS_LIMIT 60
 
@@ -26,12 +29,12 @@
 #define ENEMY_SYMBOL 'E'
 #define QUIZ_SYMBOL 'Q'
 #define PORTAL_SYMBOL '|'
-#define END_SYMBOL 'E'
+#define END_SYMBOL 'F'
 #define LEFT_TIME 6 * 60 * 1000 * 1000
 
 #define ENEMY_MAX 3
 #define TOTAL_PROBLEMS 10
-#define MAX_SPEED
+#define MAX_SPEED 0.5 * 1000 * 1000
 
 #define GET 1
 #define SET 2
@@ -45,7 +48,7 @@
 #define PROBLEM_STATUS_X 0
 #define PROBLEM_STATUS_Y 40
 
-#define BLANK "                                                                               "
+#define BLANK "                                                                                                              "
 #define DEBUG_F endwin(); puts("debug!"); exit(0);
 
 
@@ -112,5 +115,11 @@ typedef struct problem
 void problemSet(struct problem* set);
 
 void problemPrint(struct problem* quiz);
+
+//
+void print_string(char* str, int x);
+void print_opening(int* root);
+void print_ending(int root, int score, long long elapsed_time);
+void timeout_ending(int root);
 
 #endif

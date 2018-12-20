@@ -1,4 +1,5 @@
 #include "def.h"
+#include <curses.h>
 
 void input_handler();
 void enemy_movement_handler();
@@ -9,6 +10,8 @@ int current_map;
 int solved;
 int quiz_number;
 char current_symbol;
+
+extern int mutex;
 
 char map1[MAP_HEIGHT][MAP_WIDTH] = {
   "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW",
@@ -68,7 +71,7 @@ char map2[MAP_HEIGHT][MAP_WIDTH] = {
   "WW.WWWWW.W.W.WW.W..WW.WWW..W.W",
   "W....WW..W....W..W.WW.W...WW.W",
   "W.WW....WW.WW.WW........W..W.W",
-  "W.WWW.W.....W....W.WWW.WWW...W",//25
+  "W.WWW.W....FW....W.WWW.WWW...W",//25
   "W.WW...WW.W...W.W..WW...W..W.W",
   "W.QW.W..W.W.W.W...WW..W...WW.W",
   "WW.W.WW.W.W.W..W.WW..WWW.WWQ.W",
@@ -88,6 +91,7 @@ char input;
 int recent_portal;
 int recent_enemy;
 int recent_quiz;
+int root;
 
 /* in-joon's work */
 struct problem set[10];
@@ -95,15 +99,29 @@ struct problem set[10];
 
 int main(void)
 {
-  initscr(); noecho(); nodelay(stdscr, TRUE); cbreak(); curs_set(0); enemy_number = 1; enemy_speed = 2 * 1000 * 1000; current_map = 1; problemSet(set);
+	setlocale(LC_ALL,"ko_KR.utf8");
+	setlocale(LC_CTYPE, "ko_KR.utf8");
+  initscr(); start_color(); noecho(); nodelay(stdscr, TRUE); cbreak(); curs_set(0); enemy_number = 1; enemy_speed = 1 * 1000 * 1000; current_map = 1; problemSet(set);
   struct timeval main_timer; set_timer(&main_timer);
   struct timeval frame_timer; set_timer(&frame_timer);
   int fps = 1; current_symbol = EMPTY_SYMBOL;
+
+  init_pair(1, COLOR_BLACK, COLOR_CYAN);
+
   init_map(map1); init_map(map2);
-  print_map(map1); refresh(); set_enemy_timer(); signal(SIGALRM, enemy_movement_handler);
+
+	/* opening and get root */
+	print_opening(&root);
+
+	/* opening and get root */
+
+  print_map(map1); refresh();
+  set_enemy_timer(); signal(SIGALRM, enemy_movement_handler);
 
   while(1)
   {
+
+	/* error revise */
     //input handling
     input_handler();
 
@@ -111,6 +129,7 @@ int main(void)
     // enemy-collision
     if(recent_enemy == FALSE && collision_detect(&player, enemy_array, enemy_number) == TRUE)
     {
+	move(player.x, player.y); addch(PLAYER_SYMBOL);
       set_new_penalty(&enemy_speed, &enemy_number);
       set_enemy_timer();
       recent_enemy = TRUE;
@@ -156,7 +175,7 @@ int main(void)
       {
         current_map = 1;
         player.x = 28; player.y = 29;
-        print_map(map1);
+	print_map(map1);
         draw(&player);
       }
       fps = 1; set_timer(&frame_timer); recent_portal = TRUE;
@@ -165,20 +184,22 @@ int main(void)
 
 
     // end-collision
-    if(end_warp(current_symbol, &player, solved) == TRUE)
+    if(end_warp(current_symbol, &player, quiz_number) == TRUE)
     {
+	print_ending(root, solved, get_elapsed_time(&main_timer));
       break;
     }
 
     // time-over?
     if(get_elapsed_time(&main_timer) + time_penalty(GET, 0) >= LEFT_TIME)
     {
+	timeout_ending(root);
       break;
     }
 
 
 
-    refresh(); ++fps;
+     refresh(); ++fps;
     // handling fps capping
     move(MAP_HEIGHT + 1, MAP_WIDTH + 1); char buffer[40]; sprintf(buffer, "frame: %d", fps); addstr(buffer);
     if(fps > FPS_LIMIT)
@@ -210,7 +231,7 @@ int main(void)
 // ending
 
 
-  endwin();
+  clear(); endwin();
   return 0;
 }
 
@@ -225,6 +246,10 @@ void set_enemy_timer()
 
 void enemy_movement_handler()
 {
+  if(mutex == TRUE)
+  {
+	return;
+  }
   for(int i = 0; i < enemy_number; i++)
   {
     if(current_map == 1) reset(&enemy_array[i], map1);
@@ -236,16 +261,18 @@ void enemy_movement_handler()
   }
   if(collision_detect(&player, enemy_array, enemy_number) == TRUE)
   {
+	move(player.x, player.y); addch(PLAYER_SYMBOL);
     set_new_penalty(&enemy_speed, &enemy_number);
     set_enemy_timer();
-    recent_enemy = TRUE;
   }
+  recent_enemy = TRUE;
 }
 
 void input_handler()
 {
   if((input = getch()) != ERR)
   {
+//	move(0, 0); printw("%c", input); refresh(); sleep(10);
     if(current_map == 1) key_handling(input, &player, map1);
     else key_handling(input, &player, map2);
 
