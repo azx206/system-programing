@@ -225,7 +225,6 @@ void set_enemy_timer()
 
 void enemy_movement_handler()
 {
-//  signal(SIGALRM, enemy_movement_handler);
   for(int i = 0; i < enemy_number; i++)
   {
     if(current_map == 1) reset(&enemy_array[i], map1);
@@ -234,6 +233,12 @@ void enemy_movement_handler()
     if(current_map == 1) random_walk(map1, &enemy_array[i]);
     else random_walk(map2, &enemy_array[i]);
     draw(&enemy_array[i]);
+  }
+  if(collision_detect(&player, enemy_array, enemy_number) == TRUE)
+  {
+    set_new_penalty(&enemy_speed, &enemy_number);
+    set_enemy_timer();
+    recent_enemy = TRUE;
   }
 }
 
