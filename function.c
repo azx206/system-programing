@@ -221,6 +221,17 @@ void clear_problem()
   move(QUIZ_X + 2, QUIZ_Y); addstr(BLANK);
 }
 
+void init_map(char map[MAP_HEIGHT][MAP_WIDTH])
+{
+  for(int i = 0; i < MAP_HEIGHT; i++)
+  {
+    for(int j = 0; j < MAP_WIDTH; j++)
+    {
+      if(map[i][j] == '.') map[i][j] = EMPTY_SYMBOL;
+    }
+  }
+}
+
 /* in-joon's work */
 
 void problemSet(struct problem* set)

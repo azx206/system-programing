@@ -20,14 +20,14 @@
 #define TRUE 1
 #define FALSE 0
 
-#define EMPTY_SYMBOL '.'
+#define EMPTY_SYMBOL ' '
 #define WALL_SYMBOL 'W'
 #define PLAYER_SYMBOL 'P'
 #define ENEMY_SYMBOL 'E'
 #define QUIZ_SYMBOL 'Q'
 #define PORTAL_SYMBOL '|'
 #define END_SYMBOL 'E'
-#define LEFT_TIME 30 * 60 * 1000 * 1000
+#define LEFT_TIME 6 * 60 * 1000 * 1000
 
 #define ENEMY_MAX 3
 #define TOTAL_PROBLEMS 10
@@ -97,6 +97,8 @@ void set_new_penalty(int* enemy_speed, int* enemy_number);
 void print_status(int solved, int quiz_number);
 
 void clear_problem();
+
+void init_map(char map[MAP_HEIGHT][MAP_WIDTH]);
 
 /* in-joon's work */
 typedef struct problem
